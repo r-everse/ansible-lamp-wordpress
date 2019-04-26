@@ -1,0 +1,17 @@
+- name: Install mysql-server
+  apt: name=mysql-server state=present update_cache=yes
+
+- name: Start MySQL service
+  service: name=mysql state=started enabled=true
+
+- name: permit authentication without table specified
+  lineinfile:
+    path: /etc/mysql/my.cnf
+    line: '[mysqld]'
+- lineinfile:
+    path: /etc/mysql/my.cnf
+    line: 'skip-grant-tables'
+
+- name: Start MySQL service
+  service: name=mysql state=restarted
+

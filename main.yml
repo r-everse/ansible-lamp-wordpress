@@ -1,0 +1,29 @@
+---
+- name: This playbook configure a LAMP environment
+  hosts: production
+  gather_facts: true
+  become: yes
+
+  vars_prompt:
+    - name: "project_name"
+      prompt: "What is the destination folder of the project ?"
+      default: "html"
+      private: no
+
+    - name: "host_name"
+      prompt: "The host name ?"
+      default: "localhost"
+      private: no
+
+    - name: "mysql_user"
+      prompt: "The db user ?"
+      default: "root"
+      private: no
+
+    - name: "mysql_password"
+      prompt: "The db password ?"
+      default: ""
+      private: yes
+
+  roles:
+    - wordpress

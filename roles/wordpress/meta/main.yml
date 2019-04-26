@@ -1,0 +1,8 @@
+---
+dependencies:
+  - role: common
+  - role: pip3
+  - role: php
+  - role: composer
+  - role: mysql
+  - role: apache

@@ -1,0 +1,5 @@
+[localhost]
+127.0.0.1
+
+[production]
+YOUR PRODUCTION IP HERE ansible_connection=ssh ansible_ssh_user=ubuntu

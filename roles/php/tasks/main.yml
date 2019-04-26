@@ -1,0 +1,21 @@
+---
+- name: Add repository to install php7
+  apt_repository: repo='ppa:ondrej/php' state=present update_cache=yes
+
+- name: Install php7
+  apt:
+    pkg:
+      - php7.3
+      - php7.3-cli
+      - php7.3-dev
+      - php7.3-cgi
+      - php7.3-fpm
+      - php7.3-mysql
+      - php7.3-xml
+      - php7.3-xmlrpc
+      - php7.3-curl
+      - php7.3-imap
+      - php7.3-pspell
+      - php7.3-gd
+    state: present
+    update_cache: yes

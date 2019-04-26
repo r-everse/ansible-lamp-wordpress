@@ -1,0 +1,42 @@
+---
+- name: Create dest
+  file: state=directory name=/var/www/{{ project_name }}
+
+- name: Download Wordpress
+  unarchive: src=https://wordpress.org/latest.tar.gz dest=/var/www/{{ project_name }} copy=no
+
+- name: Change ownership of WordPress installation
+  file: path=/var/www/{{ project_name }}/ owner=www-data group=www-data state=directory recurse=yes
+
+- name: copy apache config
+  template: src=default.j2 dest=/etc/apache2/sites-available/{{ project_name }}
+
+- name: create link into sites-enabled
+  file: state=link src=/etc/apache2/sites-available/{{ project_name }} dest=/etc/apache2/sites-enabled/{{ project_name }}
+
+# this module is required to execute next task
+- name: install python mysql bindings
+  apt: name=python-mysqldb state=present
+
+- name: Install PyMySql via pip
+  pip:
+    name: PyMySQL
+
+- name: create database for wordpress site
+  mysql_db:
+    name: "{{ project_name }}"
+    login_user: "{{ mysql_user }}"
+    login_password: "{{ mysql_password }}"
+
+- name: enable rewrite module
+  apache2_module:
+    state: present
+    name: rewrite
+
+- name: enable php7.3 module
+  apache2_module:
+    state: present
+    name: php7.3
+
+- name: restart apache2
+  service: name=apache2 state=restarted
